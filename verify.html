@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification Bulletin - NGAMABA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .badge-authentique {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+            }
+        }
+        
+        .info-group {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 18px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .performance {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .performance .label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .performance .value {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        
+        .rang-badge {
+            display: inline-block;
+            background: #ffc107;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .serial {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .serial-label {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .serial-value {
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 12px;
+            word-break: break-all;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #c62828;
+        }
+        
+        .check-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            animation: bounce 0.6s ease-out;
+        }
+        
+        @keyframes bounce {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="check-icon">✓</div>
+            <h1>Bulletin Authentique</h1>
+            <p>Centre Scolaire Évangélique NGAMABA</p>
+            <div class="badge-authentique">✓ DOCUMENT VÉRIFIÉ</div>
+        </div>
+        
+        <div id="content">
+            <!-- Les infos seront insérées ici par JavaScript -->
+        </div>
+        
+        <div class="footer">
+            <p>Généré le <span id="date"></span></p>
+            <p>© NGAMABA - Tous droits réservés</p>
+        </div>
+    </div>
+    
+    <script>
+        // Récupérer les paramètres de l'URL
+        const params = new URLSearchParams(window.location.search);
+        
+        const data = {
+            nom: params.get('nom') || 'N/A',
+            matricule: params.get('matricule') || 'N/A',
+            classe: params.get('classe') || 'N/A',
+            moyenne: params.get('moyenne') || 'N/A',
+            rang: params.get('rang') || 'N/A',
+            serial: params.get('serial') || 'N/A',
+            annee: params.get('annee') || 'N/A'
+        };
+        
+        // Afficher les données
+        const content = document.getElementById('content');
+        
+        if (data.nom === 'N/A') {
+            content.innerHTML = '<div class="error">⚠️ Données invalides ou bulletin non trouvé</div>';
+        } else {
+            content.innerHTML = `
+                <div class="info-group">
+                    <div class="info-label">Nom Complet</div>
+                    <div class="info-value">${escapeHtml(data.nom)}</div>
+                </div>
+                
+                <div class="info-group">
+                    <div class="info-label">Matricule</div>
+                    <div class="info-value">${escapeHtml(data.matricule)}</div>
+                </div>
+                
+                <div class="info-group">
+                    <div class="info-label">Classe</div>
+                    <div class="info-value">${escapeHtml(data.classe)}</div>
+                </div>
+                
+                <div class="info-group">
+                    <div class="info-label">Année Scolaire</div>
+                    <div class="info-value">${escapeHtml(data.annee)}</div>
+                </div>
+                
+                <div class="performance">
+                    <div class="label">MOYENNE GÉNÉRALE</div>
+                    <div class="value">${escapeHtml(data.moyenne)}/20</div>
+                    <div class="rang-badge">Rang: ${escapeHtml(data.rang)}</div>
+                </div>
+                
+                <div class="serial">
+                    <div class="serial-label">Numéro de série (anti-falsification)</div>
+                    <div class="serial-value">${escapeHtml(data.serial)}</div>
+                </div>
+            `;
+        }
+        
+        // Définir la date du jour
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', language: 'fr' };
+        document.getElementById('date').textContent = today.toLocaleDateString('fr-FR', options);
+        
+        // Fonction pour échapper HTML (sécurité)
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
